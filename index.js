@@ -1,12 +1,12 @@
-var http = require('http');
-var url = require('url');
-var fs = require('fs');
+import { createServer } from 'http';
+import url from 'url';
+import { readFile } from 'fs';
 
 const port = 8080;
 const hostname = 'localhost';
 
-const server = http.createServer(function (req, res) {
-  var q = url.parse(req.url, true)
+const server = createServer((req, res) => {
+  const q = url.parse(req.url, true)
   let filename = '';
   if (q.pathname == '/contact-me') {
     filename = 'contact-me.html';
@@ -18,7 +18,7 @@ const server = http.createServer(function (req, res) {
     filename = '404.html'
   }
 
-  fs.readFile(filename, function (err, data) {
+  readFile(filename, (err, data) => {
     if (err) throw err;
     res.writeHead(200, { 'Content-Type': 'text/html' });
     res.write(data);
